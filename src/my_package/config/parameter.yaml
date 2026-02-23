@@ -1,0 +1,5 @@
+parameter:
+  ros__parameters:
+    num_particles: 5000 
+    topic_name: [scan, image] 
+    topic_type: [sensor_mags/msg/LaserScan, sensor_msgs/msg/Image]
