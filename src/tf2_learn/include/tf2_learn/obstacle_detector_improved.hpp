@@ -8,6 +8,7 @@
 #include "sensor_msgs/msg/laser_scan.hpp"
 #include "rclcpp/rclcpp.hpp"
 
+
 namespace tf2_learn
 {
     class obs_det_imp_node:public rclcpp::Node
@@ -20,6 +21,7 @@ namespace tf2_learn
             std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
             std::shared_ptr<tf2_ros::StaticTransformBroadcaster> tf_broadcaster_;
             void callback_(sensor_msgs::msg::LaserScan::UniquePtr msg_);
+            
     };
 }
 

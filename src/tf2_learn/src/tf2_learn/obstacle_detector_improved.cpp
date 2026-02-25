@@ -43,7 +43,7 @@ namespace tf2_learn
             tf2::Transform odom_to_laser;
             try
             {
-                odom_to_laser_msg = buffer_->lookupTransform("odom", "base_laser_link", msg_->header.stamp);
+                odom_to_laser_msg = buffer_->lookupTransform("odom", "base_laser_link", msg_->header.stamp, 100ms);
                 tf2::fromMsg(odom_to_laser_msg.transform, odom_to_laser);
             }
             catch(tf2::TransformException &ex)
@@ -56,7 +56,7 @@ namespace tf2_learn
             geometry_msgs::msg::TransformStamped odom_to_obs_msg;
             odom_to_obs_msg.transform = tf2::toMsg(odom_to_obs);
             odom_to_obs_msg.header.frame_id = "odom";
-            odom_to_obs_msg.child_frame_id = "obstacle_det";
+            odom_to_obs_msg.child_frame_id = "obs_det";
             odom_to_obs_msg.header.stamp = msg_->header.stamp;
 
             tf_broadcaster_->sendTransform(odom_to_obs_msg);

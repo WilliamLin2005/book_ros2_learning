@@ -8,6 +8,6 @@ def generate_launch_description():
             executable='tf2_main_imp',
             output='screen',
             parameters=[{'use_sim_time': True}],
-            remappings=[('input_scan', '/scan_raw')]
+            remappings=[('scan_input', '/scan_raw')]
         )
     ])

@@ -31,7 +31,7 @@ namespace tf2_learn
 
         try
         {
-            robot_to_obs = buffer_->lookupTransform("base_footprint", "obstacle_det", tf2::TimePointZero);
+            robot_to_obs = buffer_->lookupTransform("base_footprint", "obs_det", tf2::TimePointZero,100ms);
         }
         catch(const tf2::TransformException & ex)
         {
@@ -42,7 +42,8 @@ namespace tf2_learn
         double y = robot_to_obs.transform.translation.y;
         double z = robot_to_obs.transform.translation.z;
         double theta_ = atan2(y, x);
-        RCLCPP_INFO_STREAM(this->get_logger(),"obs detected at X:"<<x<<" Y: "<<y<<" Z: "<<z<<" ,with atan2: "<<theta_);
+        double dist = std::sqrt(x * x + y * y + z * z);
+        RCLCPP_INFO_STREAM(this->get_logger(), "obs detected at X:" << x << " Y: " << y << " Z: " << z << " ,with atan2: " << theta_<<"with distance of : "<<dist);
 
         visualization_msgs::msg::Marker marker_;
         marker_.header.frame_id = "base_footprint";
@@ -56,8 +57,9 @@ namespace tf2_learn
         end_.set__x(x);end_.set__y(y);end_.set__z(z);
         marker_.points = {start_, end_};
 
+        if(dist>=2.0){marker_.color.g = 1.0;}
+        else{marker_.color.r = 1.0;}
         marker_.color.a = 1.0;
-        marker_.color.r = 1.0;
         marker_.scale.set__x(0.1);
         marker_.scale.set__y(0.2);
         marker_.scale.set__z(0.5);
