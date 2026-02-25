@@ -29,6 +29,7 @@ add_library(${PROJECT_NAME} SHARED
   src/tf2_learn/obstacle_detector.cpp
   src/tf2_learn/obstacle_monitor.cpp
   src/tf2_learn/obstacle_detector_improved.cpp
+  src/tf2_learn/odom_meters.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 
