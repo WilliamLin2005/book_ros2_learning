@@ -76,7 +76,7 @@ namespace vff_avoidance
                 // 使用反比模型：越近，排斥力成倍剧增！
                 float force_magnitude = K_REPULSIVE * (1.0f / dist); 
 
-                // 向量累加（不需要除以 times）
+                // 向量累加
                 vff_.repulsive_vector[0] += force_magnitude * cos(opposite_angle);
                 vff_.repulsive_vector[1] += force_magnitude * sin(opposite_angle);
             }
