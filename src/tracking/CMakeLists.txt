@@ -33,11 +33,35 @@ set(dependencies
 
 include_directories(include)
 
-add_library(object_detector SHARED src/tracking/object_detector.cpp)
-ament_target_dependencies(object_detector ${dependencies})
-target_include_directories(object_detector PUBLIC ${OpenCV_INCLUDE_DIRS})
-target_link_libraries(object_detector ${OpenCV_LIBRARIES})
+add_library(${PROJECT_NAME} SHARED 
+src/tracking/head_controller.cpp 
+src/tracking/object_detector.cpp 
+src/tracking/pid_controller.cpp 
+)
+ament_target_dependencies(${PROJECT_NAME} ${dependencies})
+target_include_directories(${PROJECT_NAME} PUBLIC ${OpenCV_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBRARIES})
 
+add_executable(object_detector_and_tracker src/object_tracker_main.cpp)
+ament_target_dependencies(object_detector_and_tracker ${dependencies})
+target_link_libraries(object_detector_and_tracker ${PROJECT_NAME} ${OpenCV_LIBRARIES})
+
+install(TARGETS 
+  ${PROJECT_NAME}
+  object_detector_and_tracker
+  ARCHIVE DESTINATION lib 
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY include
+  DESTINATION include
+)
+
+install (DIRECTORY launch config
+  DESTINATION share/${PROJECT_NAME}/
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
