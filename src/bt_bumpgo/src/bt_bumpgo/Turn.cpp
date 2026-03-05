@@ -1,0 +1,47 @@
+#include<string>
+#include<iostream>
+
+#include"bt_bumpgo/Turn.hpp"
+#include"behaviortree_cpp_v3/behavior_tree.h"
+
+#include"geometry_msgs/msg/twist.hpp"
+#include"rclcpp/rclcpp.hpp"
+
+namespace bt_bumpgo
+{
+    using namespace std::chrono_literals;
+
+    Turn::Turn(const std::string &xml_pkg_name, const BT::NodeConfiguration &conf)
+    :BT::ActionNodeBase(xml_pkg_name,conf)
+    {
+        config().blackboard->get("node_name", node_);
+        turn_pub = node_->create_publisher<geometry_msgs::msg::Twist>("vel_output", 10);
+    }
+
+    BT::NodeStatus Turn::tick()
+    {
+        if(status()==BT::NodeStatus::IDLE)
+        {
+            start_time = node_->now();
+        }
+
+        geometry_msgs::msg::Twist turn_msg;
+        turn_msg.angular.set__z(0.5);
+        turn_pub->publish(turn_msg);
+
+        auto elapsed = node_->now() - start_time;
+        if(elapsed<3s)
+        {
+            return BT::NodeStatus::RUNNING;
+        }
+        else{
+            return BT::NodeStatus::SUCCESS;
+        }
+    }
+} //namespace bt_bumpgo
+
+#include"behaviortree_cpp_v3/bt_factory.h"
+BT_REGISTER_NODES(factory)
+{
+    factory.registerNodeType<bt_bumpgo::Turn>("Turn");
+}
