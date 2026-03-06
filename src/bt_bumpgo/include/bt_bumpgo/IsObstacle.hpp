@@ -20,7 +20,7 @@ namespace bt_bumpgo
 
             BT::NodeStatus tick();
 
-            static BT::PortsList Portsprovided()
+            static BT::PortsList providedPorts()
             {
                 return BT::PortsList({BT::InputPort<double>("obs_distance")});
             }

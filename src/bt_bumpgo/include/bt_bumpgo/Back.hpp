@@ -20,7 +20,7 @@ namespace bt_bumpgo
             void halt() {};
             BT::NodeStatus tick();
 
-            static BT::PortsList Portsprovided()
+            static BT::PortsList providedPorts()
             {
                 return BT::PortsList({});
             }

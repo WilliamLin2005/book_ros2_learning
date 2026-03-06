@@ -19,7 +19,7 @@ namespace bt_bumpgo
     BT::NodeStatus Forward::tick()
     {
         geometry_msgs::msg::Twist twist_msg;
-        twist_msg.linear.set__x(1.0);
+        twist_msg.linear.set__x(0.5);
         twist_pub->publish(twist_msg);
 
         return BT::NodeStatus::RUNNING;

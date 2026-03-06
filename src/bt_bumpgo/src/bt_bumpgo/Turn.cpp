@@ -26,7 +26,7 @@ namespace bt_bumpgo
         }
 
         geometry_msgs::msg::Twist turn_msg;
-        turn_msg.angular.set__z(0.5);
+        turn_msg.angular.set__z(1.0);
         turn_pub->publish(turn_msg);
 
         auto elapsed = node_->now() - start_time;
