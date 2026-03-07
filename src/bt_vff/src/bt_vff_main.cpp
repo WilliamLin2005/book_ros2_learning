@@ -16,18 +16,19 @@ int main(int argc, char * argv[])
     using namespace std::chrono_literals;
 
     rclcpp::init(argc, argv);
-    auto node = rclcpp::Node::make_shared("patrolling node");
+    auto node = rclcpp::Node::make_shared("vff_avoidance_node");
 
     BT::BehaviorTreeFactory factory;
     BT::SharedLibrary loader;
 
-    factory.registerFromPlugin(loader.getOSName("Forward_bt_node"));
+    factory.registerFromPlugin(loader.getOSName("Stop_bt_node"));
     factory.registerFromPlugin(loader.getOSName("Back_bt_node"));
     factory.registerFromPlugin(loader.getOSName("Turn_bt_node"));
-    factory.registerFromPlugin(loader.getOSName("IsObstacle_bt_node"));
+    factory.registerFromPlugin(loader.getOSName("vff_bt_node"));
+    factory.registerFromPlugin(loader.getOSName("ready_to_run_vff_bt_node"));
 
-    std::string pkgpath = ament_index_cpp::get_package_share_directory("bt_bumpgo");
-    std::string xml_file_path = pkgpath + "/behavior_tree_xml/bumpgo.xml";
+    std::string pkgpath = ament_index_cpp::get_package_share_directory("bt_vff");
+    std::string xml_file_path = pkgpath + "/behavior_tree_xml/bt_vff.xml";
 
     auto blackboard = BT::Blackboard::create();
     blackboard->set("node_name", node);
@@ -41,8 +42,8 @@ int main(int argc, char * argv[])
 
     while(!finish && rclcpp::ok())
     {
-        finish = tree.rootNode()->executeTick() != BT::NodeStatus::RUNNING;
         rclcpp::spin_some(node);
+        finish = tree.rootNode()->executeTick() != BT::NodeStatus::RUNNING;
         rate.sleep();
     }
 

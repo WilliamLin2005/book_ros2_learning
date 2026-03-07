@@ -1,0 +1,28 @@
+    <?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <ReactiveSequence>
+            <Fallback>
+                <Condition ID="ready_to_run_vff" elapsed_time="1000"/>
+                <Sequence>
+                    <Action ID="Stop"/>
+                    <Action ID="Back"/>
+                    <Action ID="Turn"/>
+                </Sequence>
+            </Fallback>
+            <Action ID="vff_avoidance"/>
+        </ReactiveSequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Action ID="Back"/>
+        <Action ID="Stop"/>
+        <Action ID="Turn"/>
+        <Condition ID="ready_to_run_vff">
+            <input_port default="1000" name="elapsed_time">time between last scan and now</input_port>
+        </Condition>
+        <Action ID="vff_avoidance"/>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
